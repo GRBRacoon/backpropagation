@@ -7,18 +7,18 @@ public class Backpropaganda {
     //계수 v[2][11][11]
     //target 1=100...2=010....
     //파일을
-    int i=1;
-    private float[][][] v = new float[2][11][11];
-    private float[] input =new float[11];
-    private float[] hidden=new float[11];
-    private float[] output= new float[10];
+
+    private double[][][] v = new double[2][11][11];
+    private double[] input =new double[11];
+    private double[] hidden=new double[11];
+    private double[] output= new double[10];
     //생성자
 
-    public Backpropaganda(Input in) {
-        input[0]=1;
-        for(int i=0;i<10;i++){
-            input[i+1]=in.result[i];
-        }
+    public Backpropaganda(){
+       input[0]=1;
+       initializing();
+    }
+    void initializing(){
         for(int i=0;i<2;i++){
             for(int j=0;j<11;j++){
                 for(int k=0;k<11;k++){
@@ -28,26 +28,46 @@ public class Backpropaganda {
         }
     }
 
-
     //학습
-    void runnig(){
-        for(int i=0;i<40;i++){//표본이 400개이므로 40회 반복
-            hidden[0]=1;
-            for(int j=1;j<=10;j++){
-                for(int k=1;k<=10;k++) {
-                    hidden[i] = hidden[i] + v[1][j][k] * input[j];
-                }
-            }
+    void runningOne(Input in) {
+        for (int i = 0; i < 10; i++) {
+            input[i + 1] = in.result[i];
         }
 
+        hidden[0] = 1;
+        for (int j = 1; j <= 10; j++) {
+            for (int k = 1; k <= 10; k++) {
+                hidden[j] = hidden[j] + v[0][j][k] * input[k];
+            }
+        }
+    }
 
-        for(int i=1;i<=10;i++){//hidden이 시그모이드 함수를 지나감
-
+    void sigmoid() {
+        for (int i = 1; i <= 10; i++) {//hidden이 시그모이드 함수를 지나감
+            this.hidden[i]= Math.exp(hidden[i]);
         }
 
     }
-    //테스팅
-    //테스팅을 기준으로 v값을 조정
+    void runningTwo(){
+        for(int i=0;i<40;i++){//표본이 400개이므로 40회 반복
+            for(int j=1;j<=10;j++){
+                for(int k=1;k<=10;k++) {
+                    output[j] = output[j] + v[1][j][k] * hidden[k];
+                }
+            }
+        }
+    }
 
+    void forward(Input in){
+        runningOne(in);
+        sigmoid();
+        runningTwo();
+
+    }
+
+    //테스팅을 기준으로 v값을 조정
+    void backward(){
+
+    }
 
 }
