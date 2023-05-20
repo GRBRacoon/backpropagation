@@ -29,9 +29,9 @@ public class Backpropaganda {
     }
 
     //학습
-    void runningOne(Input in) {
+    void runningOne(double[] result) {
         for (int i = 0; i < 10; i++) {
-            input[i + 1] = in.result[i];
+            input[i + 1] = result[i];
         }
 
         hidden[0] = 1;
@@ -42,11 +42,15 @@ public class Backpropaganda {
         }
     }
 
-    void sigmoid() {
+    void sigmoidH() {
         for (int i = 1; i <= 10; i++) {//hidden이 시그모이드 함수를 지나감
-            this.hidden[i]= Math.exp(hidden[i]);
+            this.hidden[i]= Math.exp(this.hidden[i]);
         }
-
+    }
+    void sigmoidO(){
+        for (int i = 0; i < 10; i++) {//hidden이 시그모이드 함수를 지나감
+            this.output[i]= Math.exp(this.output[i]);
+        }
     }
     void runningTwo(){
         for(int i=0;i<40;i++){//표본이 400개이므로 40회 반복
@@ -58,11 +62,11 @@ public class Backpropaganda {
         }
     }
 
-    void forward(Input in){
-        runningOne(in);
-        sigmoid();
+    void forward(double[] result){
+        runningOne(result);
+        sigmoidH();
         runningTwo();
-
+        sigmoidO();
     }
 
     //테스팅을 기준으로 v값을 조정
