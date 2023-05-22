@@ -14,6 +14,13 @@ public class Backpropaganda {
     private double[] err=new double[outSize];
     private double learnRate=0.5;
 
+    int[] lastOut= new int[10];
+    int sumAll=0;
+    int correctAll=0;
+    int unCorrectAll=0;
+    int[] sum= new int[10];
+    int[] correct=new int[10];
+
     public double getLearnRate() {
         return learnRate;
     }
@@ -80,17 +87,39 @@ public class Backpropaganda {
             this.output[1][i]= Math.exp(this.output[0][i]);
         }
     }
+    void correctCheck(int ans){
+        double com=0;
+        int out=0;
+        for(int i=0;i<outSize;i++){
+            if(output[1][i]>com){
+                out=i;
+                com=output[1][i];
+            }
+        }
+        if(ans==out){
+            correct[ans]++;
+            sum[ans]++;
+        }
+        else{
+            sum[ans]++;
+        }
+        sumAll=sumAll+sum[ans];
+        correctAll=correctAll+correct[ans];
+    }
 
 
     void forward(double[][][] result){
+
         for(int i=0;i<40;i++){
             for(int j=0;j<10;j++){
                 learningOne(result[i][10]);
+                sigmoidH();
+                learningTwo();
+                sigmoidO();
+                correctCheck(j);
             }
         }
-        sigmoidH();
-        learningTwo();
-        sigmoidO();
+
     }
 
     //테스팅을 기준으로 v값을 조정
