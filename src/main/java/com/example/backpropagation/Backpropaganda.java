@@ -3,12 +3,6 @@ package com.example.backpropagation;
 import java.util.Arrays;
 
 public class Backpropaganda {
-    //input[10][100];11개
-    //hidden 11개
-    //output 10개
-    //계수 v[2][11][11]
-    //파일을
-
     private int inSize=100;
     private int hSize=20;
     private int outSize=10;
@@ -76,8 +70,12 @@ public class Backpropaganda {
     }
 
 
-    void forward(double[] result){
-        learningOne(result);
+    void forward(double[][][] result){
+        for(int i=0;i<40;i++){
+            for(int j=0;j<10;j++){
+                learningOne(result[i][10]);
+            }
+        }
         sigmoidH();
         learningTwo();
         sigmoidO();
@@ -85,10 +83,20 @@ public class Backpropaganda {
 
     //테스팅을 기준으로 v값을 조정
     void backward(){
+        int t=0;
+        for(int i=0;i<10;i++){//i는 타겟
 
+            for(int j=0;j<10;j++){//타겟의 인덱스를 확인
+                if(j==i)
+                    t=1;
+                weightCalW1(i,t);
+                weightCalW2(i,t);
+            }
+
+        }
     }
 
-    void errCal(int num){//num은 0-9까지
+    void errCal(int num){//num은 0-9까지// backward에 넣지말고 따로 한번 시행
         double target=0;
         for(int i=0;i<10;i++){
             if(i==num){
@@ -97,7 +105,7 @@ public class Backpropaganda {
             err[i]=1/2*Math.pow((target-output[1][i]),2);
         }
     }
-    double weightCalW1(int order,int tarNum,int t){//타겟 숫자 하나에 대해, w1[target][]을 계산
+    double weightCalW1(int tarNum,int t){//타겟 숫자 하나에 대해, w1[target][]을 계산
         for(int i=0;i<=hSize+1;i++){//t는 타겟 숫자의 타겟값
             double x=-(t-err[i]);
             double y=output[1][tarNum]*(1-output[1][tarNum]);
@@ -106,7 +114,7 @@ public class Backpropaganda {
         }
         return 0;
     }
-    double weightCalW2(int order,int tarNum,int t){
+    double weightCalW2(int tarNum,int t){
         for(int i=0;i<outSize;i++){
             double x=-(t-err[i]);
             double y=output[1][tarNum]*(1-output[1][tarNum]);
