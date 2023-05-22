@@ -14,6 +14,18 @@ public class Backpropaganda {
     private double[] err=new double[outSize];
     private double learnRate=0.5;
 
+    public double getLearnRate() {
+        return learnRate;
+    }
+
+    public void setLearnRate(double learnRate) {
+        this.learnRate = learnRate/100;
+    }
+
+    public double[][] getOutput() {
+        return output;
+    }
+
     //생성자
     public Backpropaganda(){
        input[0]=1;

@@ -18,20 +18,24 @@ public class Main {
             System.out.println("종료   : 3");
             //scanner
             choice= scanner.nextInt();
+            float accuracy;
+
+
             //1
             if(choice==1) {
 
-                float accuracy;
-                System.out.print("원하는 정밀도를 입력하시오: ");
+                System.out.print("원하는 정밀도를 입력하시오(0~100의 값): ");
                 //SCANNER
                 accuracy = scanner.nextFloat();//정확도 입력
+                backpropaganda.setLearnRate(accuracy);//정확도 저장
 
                 backpropaganda.forward(result); //순전
-                for (int i = 0; i < input.getNum(); i++) {
-                    backpropaganda.errCal(i);
-                }
+
+                for (int i = 0; i < input.getNum(); i++) {backpropaganda.errCal(i);}//오차계산
+
                 backpropaganda.backward();//역전
 
+                System.out.println(backpropaganda.getOutput()[1]);//결과 출력
             }
             //2
             else if(choice==2){
