@@ -31,24 +31,21 @@ public class Main {
                 accuracy = scanner.nextFloat();//정확도 입력
                 backpropaganda.setLearnRate(accuracy);//정확도 저장
 
-                while(true) {
-                    backpropaganda.forward(result); //순전
+                for(int i=0;i<input.getSample();i++) {
+                    backpropaganda.forward(result[i]); //순전
 
-                    for (int i = 0; i < input.getNum(); i++) {
-                        backpropaganda.errCal(i);
+                    for (int j = 0; j < input.getNum(); j++) {
+                        backpropaganda.errCal(j);
                     }//오차계산
-
                     backpropaganda.backward();//역전
 
-                    System.out.println(backpropaganda.getOutput()[1]);//결과 출력
+                    if(accuracy<=backpropaganda.correctAll/backpropaganda.sumAll)
+                        break;
 
-                    if(accuracy<=backpropaganda.correctAll/backpropaganda.sumAll){
-                        break;
-                    }
-                    else if(backpropaganda.sumAll==400){
-                        break;
-                    }
                 }
+                System.out.println(backpropaganda.getOutput()[1]);//결과 출력
+                
+
             }
             //2
             else if(choice==2){
@@ -56,12 +53,13 @@ public class Main {
                 System.out.print("원하는 정밀도를 입력하시오(0~100의 값): ");
                 accuracy = scanner.nextFloat();//정확도 입력
                 backpropaganda.setLearnRate(accuracy);//정확도 저장
-                while(true) {
-                    backpropaganda.forward(result);//순전
-                    System.out.println(backpropaganda.getOutput()[1]);//결과 출력
 
+                for(int i=0;i< input.getSample();i++) {
+                    backpropaganda.forward(result[i]);//순전파
                 }
+                System.out.println(backpropaganda.correctAll / backpropaganda.sumAll);//결과 출력
             }
+
             //3
             else if(choice==3){
                 break;

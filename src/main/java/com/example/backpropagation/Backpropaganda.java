@@ -108,22 +108,19 @@ public class Backpropaganda {
     }
 
 
-    void forward(double[][][] result){
-
-        for(int i=0;i<40;i++){
+    void forward(double[][] result){//순전파/output까지 값을 집어넣고 틀렸는지까지 확인
             for(int j=0;j<10;j++){
-                learningOne(result[i][10]);
+                learningOne(result[10]);
                 sigmoidH();
                 learningTwo();
                 sigmoidO();
                 correctCheck(j);
             }
-        }
-
     }
 
+
     //테스팅을 기준으로 v값을 조정
-    void backward(){
+    void backward(){//역전파// 가중치 조정만
         int t=0;
         for(int i=0;i<10;i++){//i는 타겟
 

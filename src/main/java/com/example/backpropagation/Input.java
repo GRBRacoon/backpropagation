@@ -28,10 +28,15 @@ public class Input {
                 for(int j=0;j<sample;j++){
                     String s=reader.readLine();
                     String line=reader.readLine();
-                    String[] numArr=line.split(",");//쉼표빼고 배열로 저장
-                    for(int k=0;k<img;k++){
-                        result[j][i][k]=Double.parseDouble(numArr[k]);
-                        //숫자를 읽어서 저장
+                    String[] numArr=line.split(" ");//쉼표빼고 배열로 저장
+                    for(int k=0;k<10;k++){
+                        for(int c=0;c<10;c++){
+                            int index=k*10+c;
+                            System.out.println(j+" "+i+" "+index);
+                            result[j][i][index]=Double.parseDouble(numArr[c]);
+                            //숫자를 읽어서 저장
+                        }
+
                     }
                 }
             }
